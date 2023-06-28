@@ -1,0 +1,87 @@
+.libraryMenu{
+    width: 420px;
+    height: 480px;
+    color: #A7A6A6;
+    position: relative;
+    top: 17px;
+    left: 8px;
+    border-radius: 8px;
+    background: #121212;
+    padding: 20px 25px;
+    overflow: hidden;
+    display: flex;
+}
+.yourLibrary{
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+}
+.yourLibrary:hover{
+    color: white;
+    cursor: pointer;
+}
+    
+.ilibrary{
+    font-size: 25px;
+}
+.h2library{
+    font-size: 16px;
+    position: relative;
+    top: 3px;
+    left: 16px;
+    
+}
+.plus{
+    width: 32px;
+    height: 32px;
+    position: relative;
+    left: 224px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1pc;
+}
+.plus:hover{
+    background-color: rgb(29, 29, 29);
+}
+
+.iplus{
+    font-size: 25px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.iplus:hover{
+    
+    width: 88px;
+    height: 32px;
+    color: white;
+    cursor: pointer;
+}
+.playlist{
+    background-color: #232323;
+    height: 32px;
+    width: 72px;
+    border-radius: 32px;
+    position: relative;
+    top: 50px;
+    right: 148px;
+    
+}
+.playlist:hover{
+    background-color: #2b2a2b;
+    cursor: pointer;
+
+}
+.text-playlist{
+    color: rgb(223, 223, 223);
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 9px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}

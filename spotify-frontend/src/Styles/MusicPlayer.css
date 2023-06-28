@@ -1,0 +1,433 @@
+.music-player {
+  background-color: #212120;
+  background-image: linear-gradient(to bottom right, rgb(29, 29, 29), rgb(15, 15, 15));
+  height: 602px;
+  width: 920px;
+  border-radius: 8px;
+  position: relative;
+  left: 438px;
+  bottom: 585px;
+  padding: 20px 25px;
+}
+
+.footer {
+  width: 1360px;
+  height: 82px;
+  background-color: black;
+  position: relative;
+  right: 460px;
+  top: 45px;
+
+}
+
+.time-line {
+  height: fit-content;
+  width: 38%;
+  position: relative;
+  left: 430px;
+  top: 14px;
+}
+
+.time-duration {
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+}
+
+.timeline {
+  flex-grow: 1;
+
+}
+
+.duration,
+.current-time {
+  font-size: 12px;
+  color: white;
+}
+
+.playpausenextback {
+  position: relative;
+  left: 624px;
+  top: 4px;
+  width: fit-content;
+
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.pp {
+  background-color: white;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  border-radius: 2pc;
+}
+
+.play-pause-button {
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  position: relative;
+  left: 1px;
+}
+
+.ipause {
+
+  color: black;
+  font-size: 28px;
+  position: relative;
+  top: 3px;
+  right: 1px;
+}
+
+.iplay {
+
+  color: black;
+  font-size: 28px;
+  position: relative;
+  top: 3px;
+}
+
+.ipause:hover,
+.iplay:hover {
+  font-size: 30px;
+}
+
+.pb,
+.nb {
+
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  border-radius: 2pc;
+
+}
+
+.previous-button,
+.next-button {
+  padding: 10px;
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.iprevious,
+.inext {
+  color: #A7A6A6;
+  font-size: 20px;
+}
+
+.iprevious:hover,
+.inext:hover {
+  color: white;
+}
+
+.vol {
+
+  width: fit-content;
+  position: relative;
+  left: 720px;
+  bottom: 16px;
+}
+
+.volume-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+}
+
+.volume-icon {
+  font-size: 20px;
+  color: white;
+  position: relative;
+  top: 35px;
+  right: 10px;
+}
+
+.volume-button:focus {
+  outline: none;
+}
+
+.volume-slider {
+  position: relative;
+  left: 30px;
+  width: 75%;
+  height: 4px;
+  background-color: #A7A6A6;
+  appearance: none;
+}
+
+.volume-slider:hover {
+  background-color: white;
+  height: 4.5px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+}
+
+.volume-slider:focus {
+  outline: none;
+}
+
+.header {
+  background-color: transparent;
+  display: flex;
+  position: relative;
+  bottom: 650px;
+}
+
+.left {
+  background-color: #050404;
+  width: 32px;
+  height: 32px;
+  border-radius: 1pc;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.ileft {
+  font-size: 20px;
+  color: #e6e6e7;
+  position: relative;
+  right: 1px;
+  top: 1px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.right {
+  position: relative;
+  left: 8px;
+  background-color: #050404;
+  width: 32px;
+  height: 32px;
+  border-radius: 1pc;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
+}
+
+.iright {
+  color: #e6e6e7;
+  font-size: 20px;
+  position: relative;
+  top: 1px;
+  left: 1px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.account {
+  background-color: black;
+  position: relative;
+  left: 760px;
+  width: 32px;
+  height: 32px;
+  border-radius: 1pc;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.iaccount {
+  color: #e6e6e7;
+}
+
+.account:hover {
+  background-color: #050404;
+  position: relative;
+  left: 759px;
+  width: 34px;
+  height: 34px;
+  border-radius: 1pc;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.iaccount:hover {
+  color: white;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+.song {
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.281);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.song:hover {
+  background-color: #353534;
+}
+
+.song-list-container {
+  height: 500px;
+  /* Set a fixed height for the container */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  position: relative;
+  top: 40px;
+}
+
+.song-list-container::-webkit-scrollbar {
+  display: none;
+}
+
+.song-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+
+.song.active {
+  background-color: rgb(51, 50, 50);
+}
+
+.song-image {
+  width: 126px;
+  height: 128px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.song-details {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.song-title {
+  margin-top: 10px;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+  font-size: 16px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.si {
+
+  width: fit-content;
+  position: relative;
+  bottom: 40px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  height: 56px;
+}
+
+.current-song {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ctitle {
+  width: 320px;
+  overflow: hidden;
+  position: relative;
+  left: 64px;
+  bottom: 40px;
+}
+
+.csong-title {
+  width: fit-content;
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
+  padding-left: 12px;
+  white-space: nowrap;
+}
+
+.cicon {
+  position: relative;
+  top: 12px;
+}
+
+.csong-image {
+  width: 56px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.current-song-artist {
+  background-color: transparent;
+  width: 280px;
+  overflow: hidden;
+  position: relative;
+  bottom: 36px;
+  color: white;
+  font-size: 12px;
+  left: 64px;
+  padding-left: 13px;
+  white-space: nowrap;
+}

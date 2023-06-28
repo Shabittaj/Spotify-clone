@@ -1,0 +1,57 @@
+.leftMenu{
+    width: 420px;
+    height: 114px; 
+    position: relative;
+    left: 8px;
+    top: 8px;
+    border-radius: 8px;
+    color: #A7A6A6;
+    background: #121212;
+    padding: 20px 25px;
+    overflow: hidden;
+    
+}
+.logoHome{
+    display: flex;
+    align-items: center;
+    position: relative;
+    bottom: 5px;
+    color: white;
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+}
+
+.ihome{
+    color: white;
+    font-size: 25px; 
+    padding-right: 16px; 
+}
+
+.text-home{
+    position: relative;
+    bottom: 1px;
+    font-size: 16px;
+}
+.searchBox{
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 8px;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
+.searchBox:hover{
+    color: white;
+}
+
+.searchBox i{
+    font-size: 25px;
+    padding-right: 16px; 
+    padding-top: 4px;
+}
+
+.text-search{
+    font-size: 16px;
+}
