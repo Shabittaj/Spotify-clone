@@ -1,38 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect,useCallback,useMemo} from 'react';
 import '../Styles/MusicPlayer.css';
-import { BsFillPlayFill, BsFillPauseFill } from 'react-icons/bs';
-import { TbPlayerSkipForwardFilled, TbPlayerSkipBackFilled } from 'react-icons/tb';
+import {
+  BsFillPlayFill,
+  BsFillPauseFill,
+  BsChevronRight,
+  BsChevronLeft,
+  BsToggle2On,
+  BsToggle2Off
+} from 'react-icons/bs';
+import {
+  TbPlayerSkipForwardFilled,
+  TbPlayerSkipBackFilled,
+  TbRepeatOff,
+  TbRepeatOnce,
+  TbRepeat
+} from 'react-icons/tb';
 import { FaVolumeUp, FaVolumeDown, FaVolumeMute } from 'react-icons/fa';
-import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import axios from 'axios';
-
-// axios.get('http://localhost:8080/album/')
-//   .then(response => {
-//     const [album, setData] = useState();
-//     // console.log(response.data.songs);
-//     setData(response.data.songs); // Destructuring assignment to extract the "data" property
-//     console.log("album: " + album); // Access the response data stored in the "data" constant
-//   })
-//   .catch((error) => {
-//     console.error('Error fetching songs:', error);
-//   });
-
-// const [songs, setSongs] = useState([]);
-
-// useEffect(() => {
-//   fetchSongs();
-// }, []);
-
-// const fetchSongs = async () => {
-//   try {
-//     const response = await axios.get('http://localhost:8080/album/');
-//     setSongs(response.data);
-//   } catch (error) {
-//     console.error('Error fetching songs:', error);
-//   }
-// };
-
 
 const MusicPlayer = () => {
   const audioRef = useRef(null);
@@ -41,77 +25,160 @@ const MusicPlayer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1); // New state for volume
+  const [repeatMode, setRepeatMode] = useState('no-repeat');
+  const [autoplayNext, setAutoplayNext] = useState(true);
 
-  /* Make sure the songs and the image of the song is in Public folder exactly named like below here. Or you can rename here. Also you can add more songs here */
-  const songs = [
-    { title: 'Tum Hi Ho', src: '/TumHiHo.mp3', image: '/tumhiho.jpeg', artist: 'Arijit Singh' },
-    { title: 'Kolaveri Di', src: '/kolaveri.mp3', image: '/kolaveri.png', artist: 'Dhanush' },
-    { title: 'Perfect', src: '/Perfect.mp3', image: '/Perfect.jpg', artist: 'Ed Sheeran' },
-    { title: 'See You Again', src: '/See you Again.mp3', image: '/See you Again.jpg', artist: 'Wiz Kalifa' },
-    { title: 'Naa Ready', src: '/Naa ready.mp3', image: '/Naa ready.jpg', artist: 'Vijay, Asal Kolaaru' },
-    { title: 'The Batman', src: '/batman.mp3', image: '/batman.jpg', artist: 'Michael Giacchino' },
-    { title: 'Ammadi Aathadi', src: '/ammadi aathadi.mp3', image: '/ammadi aathadi.jpg', artist: 'T. Ranjendar, STR, Suchitra' },
-    { title: 'Arima Arima', src: '/arima arima.mp3', image: '/arima arima.jpg', artist: 'Hariharan, Sadhana Sargam' },
-    { title: 'Namma Satham', src: '/Namma satham.mp3', image: '/Namma satham.jpg', artist: 'A.R. Rahman, Yogi Sekar' },
-    { title: 'Azhagiye', src: '/azhagiye.mp3', image: '/azhagiye.jpg', artist: 'Arjun Chandy, Haricharan, Jonita Gandhi' },
-    { title: 'Aye Sinamika', src: '/aye sinamika.mp3', image: '/aye sinamika.jpg', artist: 'A.R. Rahman, Karthik' },
-    { title: 'Agar Tum Sath Ho', src: '/agar tum.flac', image: '/agar tum.jpg', artist: 'Alka Yagnik & Arjith Singh' },
-    { title: 'Amma Nah Nah', src: '/amma nah nah.mp3', image: '/amma nah nah.jpg', artist: 'Santhosh Narayanan' },
-    { title: 'Channa Mereya', src: '/channa meraya.mp3', image: '/channa meraya.jpg', artist: 'Arjith Singh' },
-    { title: 'Beast Mode', src: '/beast mode.mp3', image: '/beast mode.jpg', artist: 'Anirudh Ravichander' },
-    { title: 'Arabic Kuthu', src: '/arabic kuthu.flac', image: '/arabic kuthu.jpg', artist: 'Anirudh Ravichander, Jonita Gandhi' },
+  
+  /* Make sure the songs and the image of the song is in Public folder exactly named like below here */
+    const songs = useMemo(() =>[
+      { title: 'Adhaaru Adhaaru', src: '/Adhaaru.mp3', image: '/Adhaaru.jpg', artist: 'Vijay Prakash, Gana Bala' },
+      { title: 'Perfect', src: '/Perfect.mp3', image: '/Perfect.jpg', artist: 'Ed Sheeran' },
+      { title: 'See You Again', src: '/See you Again.mp3', image: '/See you Again.jpg', artist: 'Wiz Kalifa' },
+      { title: 'Naa Ready', src: '/Naa ready.mp3', image: '/Naa ready.jpg', artist: 'Vijay, Asal Kolaaru' },
+      { title: 'The Batman', src: '/batman.mp3', image: '/batman.jpg', artist: 'Michael Giacchino' },
+      { title: 'Ammadi Aathadi', src: '/ammadi aathadi.mp3', image: '/ammadi aathadi.jpg', artist: 'T. Ranjendar, STR, Suchitra' },
+      { title: 'Arima Arima', src: '/arima arima.mp3', image: '/arima arima.jpg', artist: 'Hariharan, Sadhana Sargam' },
+      { title: 'Namma Satham', src: '/Namma satham.mp3', image: '/Namma satham.jpg', artist: 'A.R. Rahman, Yogi Sekar' },
+      { title: 'Azhagiye', src: '/azhagiye.mp3', image: '/azhagiye.jpg', artist: 'Arjun Chandy, Haricharan, Jonita Gandhi' },
+      { title: 'Aye Sinamika', src: '/aye sinamika.mp3', image: '/aye sinamika.jpg', artist: 'A.R. Rahman, Karthik' },
+      { title: 'Agar Tum Sath Ho', src: '/agar tum.flac', image: '/agar tum.jpg', artist: 'Alka Yagnik & Arjith Singh' },
+      { title: 'Amma Nah Nah', src: '/amma nah nah.mp3', image: '/amma nah nah.jpg', artist: 'Santhosh Narayanan' },
+      { title: 'Channa Mereya', src: '/channa meraya.mp3', image: '/channa meraya.jpg', artist: 'Arjith Singh' },
+      { title: 'Beast Mode', src: '/beast mode.mp3', image: '/beast mode.jpg', artist: 'Anirudh Ravichander' },
+      { title: 'Arabic Kuthu', src: '/arabic kuthu.flac', image: '/arabic kuthu.jpg', artist: 'Anirudh Ravichander, Jonita Gandhi' },
+      
+    ],[]);
+  
 
-  ];
-
-  const handlePlayPause = (song) => {
-    if (currentSong && currentSong.src === song.src) {
-      if (isPlaying) {
-        setIsPlaying(false);
-        audioRef.current.pause();
+    const handlePlayPause = (song) => {
+      if (currentSong && currentSong.src === song.src) {
+        if (isPlaying) {
+          setIsPlaying(false);
+          audioRef.current.pause();
+        } else {
+          setIsPlaying(true);
+          audioRef.current.play();
+        }
       } else {
+        setCurrentSong(song);
         setIsPlaying(true);
+        audioRef.current.src = song.src;
         audioRef.current.play();
       }
-    } else {
-      setCurrentSong(song);
-      setIsPlaying(true);
-      audioRef.current.src = song.src;
-      audioRef.current.play();
-    }
-  };
+    };
 
-  const handleNextSong = () => {
-    const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
-    const nextIndex = (currentIndex + 1) % songs.length;
-    const nextSong = songs[nextIndex];
-    setCurrentSong(nextSong);
-    audioRef.current.src = nextSong.src;
-    audioRef.current.play();
-  };
+    const handleAutoplayNextToggle = () => {
+      setAutoplayNext(!autoplayNext);
+    };
 
+    const handleNextSong = useCallback(() => {
+      if (isPlaying) {
+        const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSong = songs[nextIndex];
+        setCurrentSong(nextSong);
+        audioRef.current.src = nextSong.src;
+        audioRef.current.play();
+      } else {
+        const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
+        const nextIndex = (currentIndex + 1) % songs.length;
+        const nextSong = songs[nextIndex];
+        setCurrentSong(nextSong);
+        audioRef.current.src = nextSong.src;
+      }
+    }, [isPlaying, currentSong, songs]);
+  
   const handlePreviousSong = () => {
-    if (audioRef.current.currentTime > 3) {
-      // Replay the currently playing song from the beginning
-      audioRef.current.currentTime = 0;
+    if (isPlaying) {
+      if (audioRef.current.currentTime > 3) {
+        audioRef.current.currentTime = 0;
+      } else {
+        const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
+        const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+        const previousSong = songs[previousIndex];
+        setCurrentSong(previousSong);
+        audioRef.current.src = previousSong.src;
+      }
+  
+      audioRef.current.play();
     } else {
-      const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
-      const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
-      const previousSong = songs[previousIndex];
-      setCurrentSong(previousSong);
-      audioRef.current.src = previousSong.src;
+      if (audioRef.current.currentTime > 3) {
+        audioRef.current.currentTime = 0;
+      } else {
+        const currentIndex = songs.findIndex((song) => song.src === currentSong.src);
+        const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+        const previousSong = songs[previousIndex];
+        setCurrentSong(previousSong);
+        audioRef.current.src = previousSong.src;
+      }
     }
-
-    audioRef.current.play();
   };
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
+  
+  const toggleRepeatMode = () => {
+    if (repeatMode === 'no-repeat') {
+      setRepeatMode('repeat');
+    } else if (repeatMode === 'repeat') {
+      setRepeatMode('repeat-one');
+    } else {
+      setRepeatMode('no-repeat');
+    }
   };
+  
+  
+    const formatTime = (time) => {
+      const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+      const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    };
+  
+    
+    useEffect(() => {
+      if (repeatMode === 'no-repeat') {
+        audioRef.current.loop = false;
+      } else if (repeatMode === 'repeat') {
+        audioRef.current.loop = false;
+      } else {
+        audioRef.current.loop = true;
+      }
+    }, [repeatMode]);
+    
+    useEffect(() => {
+      const audioElement = audioRef.current;
+    
+      const handleTimeUpdate = () => {
+        setCurrentTime(audioElement.currentTime);
+      };
+    
+      const handleLoadedMetadata = () => {
+        setDuration(audioElement.duration);
+      };
+    
+      const handleSongEnd = () => {
+        if (autoplayNext) {
+          handleNextSong();
+        } else {
+          setIsPlaying(false);
+          setCurrentTime(0);
+        }
+      };
+    
+      audioElement.addEventListener('timeupdate', handleTimeUpdate);
+      audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+      audioElement.addEventListener('ended', handleSongEnd);
+    
+      return () => {
+        audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+        audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        audioElement.removeEventListener('ended', handleSongEnd);
+      };
+    }, [autoplayNext, handleNextSong]);
+    
+    
+  
+    
 
+ 
   useEffect(() => {
-
     const audioElement = audioRef.current;
 
     const handleTimeUpdate = () => {
@@ -170,9 +237,21 @@ const MusicPlayer = () => {
         <div className="playercontrols">
           <div className="playpausenextback">
             <div className="controls">
+              
+               <div className="autoplay-next">
+                  <button
+                    className={`autoplay-next-button ${autoplayNext ? 'active' : ''}`}
+                    onClick={handleAutoplayNextToggle}
+                  >
+                    {autoplayNext?(
+                    <i className="autoon"><span className='tooltip'>Auto Next Off</span><BsToggle2On/></i>):(
+                      <i className='autooff'><span className='tooltip'>Auto Next On</span><BsToggle2Off/></i>)
+                    }
+                  </button>
+                  </div>
               <div className="pb">
                 <button className="previous-button" onClick={handlePreviousSong} disabled={!currentSong}>
-                  <i className="iprevious">
+                  <i className="iprevious"><span className='tooltip'>Previous</span>
                     <TbPlayerSkipBackFilled />
                   </i>
                 </button>
@@ -184,11 +263,11 @@ const MusicPlayer = () => {
                   disabled={!currentSong}
                 >
                   {isPlaying ? (
-                    <i className="ipause">
+                    <i className="ipause"><span className='tooltip'>Pause</span>
                       <BsFillPauseFill />
                     </i>
                   ) : (
-                    <i className="iplay">
+                    <i className="iplay"><span className='tooltip'>Play</span>
                       <BsFillPlayFill />
                     </i>
                   )}
@@ -196,11 +275,21 @@ const MusicPlayer = () => {
               </div>
               <div className="nb">
                 <button className="next-button" onClick={handleNextSong} disabled={!currentSong}>
-                  <i className="inext">
+                  <i className="inext"><span className='tooltip'>Next</span>
                     <TbPlayerSkipForwardFilled />
                   </i>
                 </button>
               </div>
+              <div className="repeat-mode">
+                  <button
+                    className={`repeat-button ${repeatMode}`}
+                    onClick={toggleRepeatMode}
+                  >
+                    {repeatMode === 'no-repeat' && <i className="repeat-icon"><span className='tooltip'>Enable Repeat</span><TbRepeatOff/></i>}
+                    {repeatMode === 'repeat' && <i className="repeat-icon"><span className='tooltip'>Enable Repeat One</span><TbRepeat/></i>}
+                    {repeatMode === 'repeat-one' && <i className="repeat-icon"><span className='tooltip'>Disable Repeat</span><TbRepeatOnce/></i>}
+                  </button>
+               </div>
             </div>
           </div>
           <div className="time-line">
@@ -239,16 +328,11 @@ const MusicPlayer = () => {
           </div>
         </div>
       </div>
-
       <div className="vol">
         <div className="volume-control">
-
-          <button className="volume-button">
-
+          <button className="volume-button"><span className='tooltip'>Volu</span>
             {getVolumeIcon()}
-
           </button>
-
           <input
             type="range"
             className="volume-slider"
@@ -263,14 +347,14 @@ const MusicPlayer = () => {
       <audio ref={audioRef} />
       <div className='header'>
         <div className='left'>
-          <i className='ileft'><BsChevronLeft /></i>
+          <i className='ileft'><BsChevronLeft/></i>
         </div>
         <div className='right'>
-          <i className='iright'><BsChevronRight /></i>
+          <i className='iright'><BsChevronRight/></i>
         </div>
-        <div className='account'>
-          <i className='iaccount'><PersonOutlineIcon /></i>
-        </div>
+      <div className='account'>
+        <i className='iaccount'><PersonOutlineIcon/></i>
+      </div>
       </div>
     </div>
   );
