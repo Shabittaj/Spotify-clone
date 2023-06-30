@@ -1,22 +1,36 @@
-import React from 'react'
+import React from 'react';
 import "../Styles/Left.css"
 import  {MdHomeFilled} from "react-icons/md";
 import {FiSearch} from "react-icons/fi";
 
 function Left() {
+
+  function handleHomeButtonClick() {
+    const event = new CustomEvent('hideSearchBar');
+    window.dispatchEvent(event);
+
+  }
+
+  function handleSearchButtonClick() {
+    const event = new CustomEvent('showSearchBar');
+    window.dispatchEvent(event);
+  }
+
+  
   return (
     <div className='leftMenu'>
       <div className='logoHome'>
-        <i className='ihome'>
-          <MdHomeFilled/>
-        </i>
-        <h2 className='text-home'>Home</h2>
+        <button className='text-home'
+        onClick={handleHomeButtonClick}>
+          <i className='ihome'><MdHomeFilled/></i>
+          Home
+          </button>
       </div>
       <div className='searchBox'>
-        <i className='isearch'>
-          <FiSearch/>
-        </i>
-        <h2 className='text-search'>Search</h2>
+        <button className='text-search'
+        onClick={handleSearchButtonClick}><i className='isearch'><FiSearch/></i>
+        Search
+        </button>
       </div>
     </div>
   )
