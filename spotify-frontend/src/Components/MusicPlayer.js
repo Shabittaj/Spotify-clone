@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect,useCallback,useMemo} from 'react';
 import '../Styles/MusicPlayer.css';
+import {FiSearch} from "react-icons/fi";
 import {
   BsFillPlayFill,
   BsFillPauseFill,
@@ -15,7 +16,7 @@ import {
   TbRepeatOnce,
   TbRepeat
 } from 'react-icons/tb';
-import { FaVolumeUp, FaVolumeDown, FaVolumeMute } from 'react-icons/fa';
+import { FaVolumeUp, FaVolumeDown, FaVolumeMute,} from 'react-icons/fa';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 
 const MusicPlayer = () => {
@@ -27,6 +28,10 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(1); // New state for volume
   const [repeatMode, setRepeatMode] = useState('no-repeat');
   const [autoplayNext, setAutoplayNext] = useState(true);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredSongs, setFilteredSongs] = useState([]);
+  const searchInputRef = useRef(null);
 
   
   /* Make sure the songs and the image of the song is in Public folder exactly named like below here */
@@ -214,11 +219,58 @@ const MusicPlayer = () => {
     }
   };
 
+  const handleSearchQueryChange = useCallback((e) => {
+    setSearchQuery(e.target.value);
+  }, []);
+  
+
+useEffect(() => {
+  // Filter songs based on the search query
+  const filtered = songs.filter((song) =>
+    song.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  setFilteredSongs(filtered);
+}, [searchQuery, songs]);
+
+
+
+  useEffect(() => {
+    function handleShowSearchBar() {
+      setShowSearchBar(true);
+      setSearchQuery('');
+      setTimeout(() => {
+        searchInputRef.current.focus();
+      }, 0);
+    }
+
+    window.addEventListener('showSearchBar', handleShowSearchBar);
+  
+    return () => {
+      window.removeEventListener('showSearchBar', handleShowSearchBar);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleHideSearchBar() {
+      setShowSearchBar(false);
+      setSearchQuery('');
+    }
+
+    window.addEventListener('hideSearchBar', handleHideSearchBar);
+  
+    return () => {
+      window.removeEventListener('hideSearchBar', handleHideSearchBar);
+    };
+  }, []);
+
+  
+  
+
   return (
     <div className="music-player">
       <div className="song-list-container">
         <div className="song-list">
-          {songs.map((song) => (
+          {(searchQuery ? filteredSongs : songs).map((song) => (
             <div
               key={song.src}
               className={`song ${currentSong && currentSong.src === song.src && isPlaying ? 'active' : ''}`}
@@ -356,6 +408,25 @@ const MusicPlayer = () => {
         <i className='iaccount'><PersonOutlineIcon/></i>
       </div>
       </div>
+      <div className='searchBar'>
+      
+      {showSearchBar && 
+      <div className="searchContainer">
+      <span className="searchIcon">
+            <FiSearch />
+          </span>
+          <input 
+          autoFocus
+           ref={searchInputRef}
+           type="text" 
+           placeholder="What do you want to listen to..."
+           value={searchQuery}
+           onChange={handleSearchQueryChange}/>
+          
+        </div>
+      }
+      
+    </div>
     </div>
   );
 };
